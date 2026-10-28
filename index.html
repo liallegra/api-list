@@ -3,344 +3,421 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>api签到站合集</title>
+<title>api站点合集</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2387c8ff'/%3E%3Cstop offset='1' stop-color='%23ff9ed6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3Cpath d='M32 44c-8-5-14-10-14-17a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 7-6 12-14 17z' fill='%23fff'/%3E%3C/svg%3E">
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+html{-webkit-text-size-adjust:100%;}
+body{
+  min-height:100vh;
+  background: linear-gradient(180deg,#7fc0ff 0%,#ffc8e4 55%,#ffb4d8 100%);
+  background-attachment: fixed;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  padding:34px 16px 44px;
+  color:#333;
+  position:relative;
+  overflow-x:hidden;
+}
+/* 装饰光斑层 */
+.deco{position:fixed;border-radius:50%;filter:blur(40px);opacity:.5;z-index:0;pointer-events:none;}
+.deco.d1{width:220px;height:220px;background:#8fd0ff;top:-60px;left:-70px;}
+.deco.d2{width:260px;height:260px;background:#ffb7dd;top:38%;right:-90px;}
+.deco.d3{width:200px;height:200px;background:#ffe0a8;bottom:-70px;left:10%;}
+.content{position:relative;z-index:1;max-width:560px;margin:0 auto;}
 
-  body {
-    font-family: "Comic Sans MS", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-    background: #fff7ed;
-    background-image:
-      radial-gradient(circle at 10% 10%, #ffd9b3 0 8%, transparent 9%),
-      radial-gradient(circle at 90% 20%, #ffd6e7 0 6%, transparent 7%),
-      radial-gradient(circle at 15% 85%, #e0f4ff 0 7%, transparent 8%),
-      radial-gradient(circle at 85% 90%, #e4ffd6 0 6%, transparent 7%);
-    background-size: 220px 220px, 180px 180px, 200px 200px, 160px 160px;
-    color: #4b3f35;
-    line-height: 1.7;
-    padding: 24px 14px 40px;
-  }
+.header{
+  text-align:center;
+  margin-bottom:34px;
+}
+.avatar-wrap{
+  width:118px;
+  height:118px;
+  margin:0 auto 14px;
+  border-radius:50%;
+  padding:4px;
+  background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(255,255,255,.35));
+  box-shadow:0 8px 26px rgba(120,80,160,.22);
+}
+.avatar{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+}
+h1{
+  font-size:34px;
+  color:#fff;
+  text-shadow:0 2px 8px rgba(80,60,140,.28);
+  margin-bottom:6px;
+  letter-spacing:2px;
+}
+.desc{
+  color:#fff;
+  font-size:16px;
+  opacity:.94;
+  text-shadow:0 1px 4px rgba(80,60,140,.18);
+}
+.stats{
+  margin-top:12px;
+  display:inline-flex;
+  gap:10px;
+  align-items:center;
+  background:rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.4);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:12px;
+  color:#fff;
+  opacity:.92;
+}
 
-  .container {
-    max-width: 820px;
-    margin: 0 auto;
-  }
+details{
+  background:rgba(255,255,255,.32);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-radius:22px;
+  margin-bottom:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.45);
+  box-shadow:0 6px 20px rgba(120,80,160,.12);
+}
+summary{
+  padding:18px 22px;
+  font-size:21px;
+  font-weight:600;
+  color:#fff;
+  cursor:pointer;
+  list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  user-select:none;
+  text-shadow:0 1px 4px rgba(80,60,140,.2);
+}
+summary::-webkit-details-marker{display:none;}
+summary .badge{
+  font-size:12px;
+  font-weight:500;
+  background:rgba(255,255,255,.35);
+  border-radius:999px;
+  padding:3px 10px;
+  text-shadow:none;
+}
+summary::after{
+  content:"⌃";
+  font-size:24px;
+  font-weight:400;
+  transition:transform .25s ease;
+}
+details[open] summary::after{transform:rotate(180deg);}
+.item-wrap{
+  padding:0 14px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.site-card{
+  background:rgba(255,255,255,.52);
+  border-radius:18px;
+  padding:13px 15px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border:1px solid rgba(255,255,255,.6);
+  transition:transform .15s ease, background .15s ease;
+}
+.site-card:active{transform:scale(.98);}
+.icon{
+  font-size:26px;
+  width:38px;
+  text-align:center;
+  flex-shrink:0;
+}
+.site-info{
+  flex:1;
+  min-width:0;
+}
+.site-card a{text-decoration:none;display:block;}
+.site-name{
+  font-size:17px;
+  font-weight:600;
+  color:#222;
+  display:block;
+  margin-bottom:3px;
+  line-height:1.3;
+}
+.site-link{
+  font-size:11px;
+  color:#7a6a8c;
+  word-break:break-all;
+  line-height:1.4;
+  display:block;
+}
 
-  /* 顶部猫猫标题区 */
-  .header {
-    background: #ffffff;
-    border: 3px solid #ffd1a3;
-    border-radius: 28px;
-    padding: 28px 22px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(255, 180, 120, 0.25);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .header::before,
-  .header::after {
-    content: "🐾";
-    position: absolute;
-    font-size: 22px;
-    opacity: 0.55;
-  }
-
-  .header::before {
-    top: 12px;
-    left: 18px;
-  }
-
-  .header::after {
-    bottom: 10px;
-    right: 20px;
-  }
-
-  .cat-avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ffd1a3, #ffb3ba);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    border: 4px solid #fff;
-    box-shadow: 0 6px 14px rgba(255, 150, 100, 0.35);
-    margin-bottom: 12px;
-  }
-
-  h1 {
-    font-size: 28px;
-    color: #6b4a2b;
-    letter-spacing: 2px;
-  }
-
-  .subtitle {
-    margin-top: 8px;
-    font-size: 14px;
-    color: #9a7b5f;
-  }
-
-  /* 分类区域 */
-  .section {
-    margin-top: 28px;
-    background: #ffffff;
-    border: 2.5px solid #ffe0c2;
-    border-radius: 24px;
-    padding: 18px 16px;
-    box-shadow: 0 8px 20px rgba(255, 170, 110, 0.18);
-  }
-
-  h2 {
-    font-size: 20px;
-    color: #6b4a2b;
-    margin-bottom: 14px;
-    padding-left: 10px;
-    border-left: 6px solid #ffb380;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  h2::before {
-    content: "🐱";
-  }
-
-  /* 链接卡片列表 */
-  .link-list {
-    display: grid;
-    gap: 10px;
-  }
-
-  a {
-    display: block;
-    background: #fffaf2;
-    border: 2px solid #ffe4c7;
-    border-radius: 16px;
-    padding: 12px 14px;
-    color: #4b3f35;
-    text-decoration: none;
-    font-size: 14px;
-    transition: 0.25s ease;
-    word-break: break-all;
-  }
-
-  a:hover {
-    background: #ffe7d1;
-    border-color: #ffb380;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(255, 150, 90, 0.25);
-  }
-
-  /* 页脚 */
-  .footer {
-    margin-top: 32px;
-    text-align: center;
-    font-size: 13px;
-    color: #a08574;
-  }
-
-  /* 手机适配 */
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 24px;
-    }
-
-    h2 {
-      font-size: 18px;
-    }
-
-    a {
-      font-size: 13px;
-      padding: 11px 12px;
-    }
-  }
+@media (prefers-reduced-motion: reduce){
+  summary::after{transition:none;}
+  .site-card:active{transform:none;}
+}
 </style>
 </head>
 <body>
+<div class="deco d1" aria-hidden="true"></div>
+<div class="deco d2" aria-hidden="true"></div>
+<div class="deco d3" aria-hidden="true"></div>
 
-<div class="container">
-
+<div class="content">
   <div class="header">
-    <div class="cat-avatar">🐱</div>
-    <h1>api签到站合集</h1>
-    <div class="subtitle">猫猫整理 · 持续更新</div>
-  </div>
-
-  <div class="section">
-    <h2>api无门槛签到站</h2>
-    <div class="link-list">
-
-<a href="https://changchunxu.xyz/sign-up?aff=U7V5" target="_blank">长春叙 — https://changchunxu.xyz/sign-up?aff=U7V5</a>
-<a href="https://nodexapi.it.com/sign-up?aff=iIe8" target="_blank">Node X — https://nodexapi.it.com/sign-up?aff=iIe8</a>
-<a href="https://limao-api.com/sign-up?aff=YiSM" target="_blank">狸猫 — https://limao-api.com/sign-up?aff=YiSM</a>
-<a href="shturl.cc/ZsOOcln0Hs45KpXHUN8iUXE7wUALtOIqvB" target="_blank">茉莉冰茶 — shturl.cc/ZsOOcln0Hs45KpXHUN8iUXE7wUALtOIqvB</a>
-<a href="https://api.jumengai.net/sign-up?aff=Dvsn" target="_blank">聚梦 — https://api.jumengai.net/sign-up?aff=Dvsn</a>
-<a href="https://shufulei.net/register?aff=NU9u" target="_blank">舒芙蕾 — https://shufulei.net/register?aff=NU9u</a>
-<a href="https://juziqishui.net/register?aff=DlSo" target="_blank">橘子汽水 — https://juziqishui.net/register?aff=DlSo</a>
-<a href="https://zhiyunapi.cc/register?aff=JODc" target="_blank">织云 — https://zhiyunapi.cc/register?aff=JODc</a>
-<a href="https://ksir.fun/sign-up?aff=aE6N" target="_blank">ksir — https://ksir.fun/sign-up?aff=aE6N</a>
-<a href="https://laneai.dev/i/1d952553" target="_blank">421 — https://laneai.dev/i/1d952553</a>
-<a href="http://www.xinxiwang.org/pdcxg" target="_blank">新希望 — www.xinxiwang.org/pdcxg</a>
-<a href="https://piu.du4s.com/sign-up?aff=z1Mx" target="_blank">piu酱 — https://piu.du4s.com/sign-up?aff=z1Mx</a>
-<a href="https://once.novai.su/sign-up?aff=NIgb" target="_blank">novai — https://once.novai.su/sign-up?aff=NIgb</a>
-<a href="https://api.dzzi.ai/register?aff=Th5Z" target="_blank">大肘子 — https://api.dzzi.ai/register?aff=Th5Z</a>
-<a href="https://api.cottonapi.cloud/sign-up?aff=4K0D" target="_blank">棉花 — https://api.cottonapi.cloud/sign-up?aff=4K0D</a>
-<a href="https://ai.xem8k5.top/register?aff=UvzU" target="_blank">XEM — https://ai.xem8k5.top/register?aff=UvzU</a>
-<a href="https://origin.nemodesk.top/sign-up?aff=Mvos" target="_blank">缘起 — https://origin.nemodesk.top/sign-up?aff=Mvos</a>
-<a href="https://taicu.vip/register?aff=r73q" target="_blank">taicu — https://taicu.vip/register?aff=r73q</a>
-<a href="https://api.dongli.work/register?aff=032h" target="_blank">冻梨 — https://api.dongli.work/register?aff=032h</a>
-<a href="shturl.cc/i15wP1Jbm1b2OugcMte1OCUgMXldv1DnoU" target="_blank">freez — shturl.cc/i15wP1Jbm1b2OugcMte1OCUgMXldv1DnoU</a>
-<a href="https://v-api.zeabur.app/register?aff=U0tm" target="_blank">V — https://v-api.zeabur.app/register?aff=U0tm</a>
-<a href="https://rplay.cc/register?aff=C28q" target="_blank">rplay — https://rplay.cc/register?aff=C28q</a>
-<a href="https://api.haokun.cc/register?aff=HvZ1" target="_blank">遂人 — https://api.haokun.cc/register?aff=HvZ1</a>
-<a href="https://open.selart.cc/register?aff=DCSQ" target="_blank">赛艺 — https://open.selart.cc/register?aff=DCSQ</a>
-<a href="https://ai.qqqpppl.dpdns.org/register?aff=ODzQ" target="_blank">灵钥 — https://ai.qqqpppl.dpdns.org/register?aff=ODzQ</a>
-<a href="https://api.relayrouter.ai/register?aff=K01v" target="_blank">向量 — https://api.relayrouter.ai/register?aff=K01v</a>
-<a href="https://www.mnapi.com/register?aff=Z0Ej" target="_blank">mn — https://www.mnapi.com/register?aff=Z0Ej</a>
-<a href="https://sllt.uk/register?aff=1HNR" target="_blank">清风（群里签到） — https://sllt.uk/register?aff=1HNR</a>
-<a href="https://free.learn-ai.top/register?aff=xb8l" target="_blank">learn — https://free.learn-ai.top/register?aff=xb8l</a>
-<a href="shturl.cc/5NDwxYcjG4MHAViHPfBt4zv9PxZCAF" target="_blank">TX — shturl.cc/5NDwxYcjG4MHAViHPfBt4zv9PxZCAF</a>
-<a href="https://beizhi.sylu.cc/sign-up?aff=GbgS" target="_blank">北执 — https://beizhi.sylu.cc/sign-up?aff=GbgS</a>
-<a href="https://infai.cc/register?aff=XgKX" target="_blank">无限 — https://infai.cc/register?aff=XgKX</a>
-<a href="https://ai.ctacy.cc/register?aff=5Yqh" target="_blank">jarvis — https://ai.ctacy.cc/register?aff=5Yqh</a>
-<a href="https://newapi.sisuo.de/register?aff=NnFf" target="_blank">思索 — https://newapi.sisuo.de/register?aff=NnFf</a>
-<a href="https://api.bltcy.ai/register?aff=33SZ125032" target="_blank">柏拉图 — https://api.bltcy.ai/register?aff=33SZ125032</a>
-<a href="https://spritnest.com/register?aff=r2GB" target="_blank">sp — https://spritnest.com/register?aff=r2GB</a>
-<a href="https://api456.me/register?aff=GBW0" target="_blank">可萌 — https://api456.me/register?aff=GBW0</a>
-<a href="https://api.sisyphusx.com/register?aff=8qXr" target="_blank">sis — https://api.sisyphusx.com/register?aff=8qXr</a>
-<a href="https://api.celestiai.xyz/register?aff=XgAn" target="_blank">清风 — https://api.celestiai.xyz/register?aff=XgAn</a>
-<a href="https://freeapi.dgbmc.top/register?aff=bsbV" target="_blank">DGB — https://freeapi.dgbmc.top/register?aff=bsbV</a>
-<a href="https://api.beibeiai.top/register?aff=da63" target="_blank">北极星 — https://api.beibeiai.top/register?aff=da63</a>
-<a href="https://52mx.net/register?aff=oI93" target="_blank">52 — https://52mx.net/register?aff=oI93</a>
-<a href="https://superapi.buzz/register?aff=DWyu" target="_blank">super — https://superapi.buzz/register?aff=DWyu</a>
-<a href="https://chat-api4.087654.xyz/register?aff=EM2P" target="_blank">天絮 — https://chat-api4.087654.xyz/register?aff=EM2P</a>
-<a href="https://yansd666.com/register?aff=05wC" target="_blank">烟神殿 — https://yansd666.com/register?aff=05wC</a>
-<a href="https://api2.aigcbest.top/register?aff=RmHS" target="_blank">钱多多 — https://api2.aigcbest.top/register?aff=RmHS</a>
-<a href="shturl.cc/Swn2Ebga8NMxO7AKTN4jF37I1k" target="_blank">简易 — shturl.cc/Swn2Ebga8NMxO7AKTN4jF37I1k</a>
-<a href="https://www.guyscode.com/sign-up?aff=SoPg" target="_blank">GUYS — https://www.guyscode.com/sign-up?aff=SoPg</a>
-<a href="https://llm-gateway.linkmnt.com/sign-up?aff=Badq" target="_blank">codzen — https://llm-gateway.linkmnt.com/sign-up?aff=Badq</a>
-<a href="https://newapi.makelove.cloud/register?aff=X8Xn" target="_blank">nianhua — https://newapi.makelove.cloud/register?aff=X8Xn</a>
-<a href="https://api.choosec.cn/register?aff=JRd6" target="_blank">choosec — https://api.choosec.cn/register?aff=JRd6</a>
-<a href="https://cloudpipi.com/register?aff=ri97" target="_blank">PIPI — https://cloudpipi.com/register?aff=ri97</a>
-<a href="https://modelgate.app/register?aff=zf6O" target="_blank">Modelgate — https://modelgate.app/register?aff=zf6O</a>
-<a href="https://api.wxiai.com/register?aff=juUx" target="_blank">微溪 — https://api.wxiai.com/register?aff=juUx</a>
-<a href="https://api.aisz.mom/sign-up?aff=5XfK" target="_blank">词元枢阁 — https://api.aisz.mom/sign-up?aff=5XfK</a>
-<a href="shturl.cc/EcScYQp4Np2iC0GweBEP3DXh7ij" target="_blank">万象灵算 — shturl.cc/EcScYQp4Np2iC0GweBEP3DXh7ij</a>
-<a href="http://156.238.251.242:3000/register?aff=5koB" target="_blank">shiki — http://156.238.251.242:3000/register?aff=5koB</a>
-<a href="https://qingjiu.nemodesk.top/register?aff=Qf0H" target="_blank">清酒 — https://qingjiu.nemodesk.top/register?aff=Qf0H</a>
-<a href="https://api.qwecc.icu/register?aff=rpZc" target="_blank">哈吉鱼 — https://api.qwecc.icu/register?aff=rpZc</a>
-<a href="https://api3.neonfox.top/sign-up?aff=kZOh" target="_blank">狐狐 — https://api3.neonfox.top/sign-up?aff=kZOh</a>
-<a href="https://api.xiaoheiapi.com/register?aff=DB71" target="_blank">小黑 — https://api.xiaoheiapi.com/register?aff=DB71</a>
-<a href="https://ai.gpt666claude.top/register?aff=84vX" target="_blank">GPT666 — https://ai.gpt666claude.top/register?aff=84vX</a>
-<a href="https://api.dragonrajai.online/sign-up?aff=xJaJ" target="_blank">dragon — https://api.dragonrajai.online/sign-up?aff=xJaJ</a>
-<a href="https://xingya.site/sign-up?aff=gklQ" target="_blank">星芽 — https://xingya.site/sign-up?aff=gklQ</a>
-<a href="https://www.huaerzi.online/register?aff=9sEq" target="_blank">华尔兹 — https://www.huaerzi.online/register?aff=9sEq</a>
-<a href="https://noir.blacknoir.cn/sign-up?aff=KBRR" target="_blank">noir — https://noir.blacknoir.cn/sign-up?aff=KBRR</a>
-<a href="https://newapi.lmx-cn.top/sign-up?aff=PLXD" target="_blank">lmx — https://newapi.lmx-cn.top/sign-up?aff=PLXD</a>
-<a href="https://raivip.com/register?aff=3itw" target="_blank">rai — https://raivip.com/register?aff=3itw</a>
-<a href="https://www.jiangeyun.xyz/register?aff=YPEKPKDDR64S" target="_blank">剑阁（玩游戏获得额度） — https://www.jiangeyun.xyz/register?aff=YPEKPKDDR64S</a>
-<a href="https://taleapi.asia/sign-up?aff=78PK" target="_blank">tale — https://taleapi.asia/sign-up?aff=78PK</a>
-<a href="https://985ai.art/sign-up?aff=7XCL" target="_blank">985 — https://985ai.art/sign-up?aff=7XCL</a>
-<a href="https://gg27251.xyz/sign-up?aff=YrQT" target="_blank">gg27251 — https://gg27251.xyz/sign-up?aff=YrQT</a>
-<a href="https://api.huihuiyun.top/register?aff=X56WM6L58XZZ" target="_blank">慧慧云 — https://api.huihuiyun.top/register?aff=X56WM6L58XZZ</a>
-<a href="shturl.cc/SKt8MjS9YvvItyYkvX4jBEqCrLCpsEHWlnQz" target="_blank">sun — shturl.cc/SKt8MjS9YvvItyYkvX4jBEqCrLCpsEHWlnQz</a>
-<a href="https://api.abnt.it/sign-up?aff=PYta" target="_blank">Aether — https://api.abnt.it/sign-up?aff=PYta</a>
-<a href="https://ai.juguang.chat/sign-up?aff=qIaf" target="_blank">聚光 — https://ai.juguang.chat/sign-up?aff=qIaf</a>
-<a href="https://api.sld.lol/sign-up?aff=qDwZ" target="_blank">天才 — https://api.sld.lol/sign-up?aff=qDwZ</a>
-<a href="https://api.seerss.xyz/register?aff=ao6e" target="_blank">糯米兔 — https://api.seerss.xyz/register?aff=ao6e</a>
-<a href="https://beizhi.dedyn.io/sign-up?aff=GbgS" target="_blank">北执 — https://beizhi.dedyn.io/sign-up?aff=GbgS</a>
-<a href="shturl.cc/4CiP4MDfHW6kwYuBR5eM5TJ8s3XJyazBg" target="_blank">flux — shturl.cc/4CiP4MDfHW6kwYuBR5eM5TJ8s3XJyazBg</a>
-<a href="https://nailao.biz/sign-up?aff=nojd" target="_blank">奶酪 — https://nailao.biz/sign-up?aff=nojd</a>
-<a href="https://www.moxin.plus/sign-up?aff=gq10" target="_blank">墨信 — https://www.moxin.plus/sign-up?aff=gq10</a>
-<a href="https://ai.hyperx.one/sign-up?aff=7bG3" target="_blank">布丁熊 — https://ai.hyperx.one/sign-up?aff=7bG3</a>
-<a href="https://xxhs.bgstudio.top/sign-up?aff=Shfm" target="_blank">信心花舍 — https://xxhs.bgstudio.top/sign-up?aff=Shfm</a>
-<a href="shturl.cc/68yosWc0pmHlVbZv0rz0yDcQhsh77Czx6PZ" target="_blank">7891 — shturl.cc/68yosWc0pmHlVbZv0rz0yDcQhsh77Czx6PZ</a>
-<a href="https://api.baiyounico.xyz/sign-up?aff=hWjd" target="_blank">白柚猫 — https://api.baiyounico.xyz/sign-up?aff=hWjd</a>
-<a href="https://kapibala.asia/sign-up?aff=3IRz" target="_blank">卡皮巴拉 — https://kapibala.asia/sign-up?aff=3IRz</a>
-<a href="https://jumengai.de5.net/sign-up?aff=oXpK" target="_blank">聚萌岛 — https://jumengai.de5.net/sign-up?aff=oXpK</a>
-<a href="https://gcmod.bond/register?aff=NW0u" target="_blank">GCmod — https://gcmod.bond/register?aff=NW0u</a>
-<a href="https://api.huidev.com/sign-up?aff=sysD" target="_blank">风绘 — https://api.huidev.com/sign-up?aff=sysD</a>
-<a href="https://cjzc.art/sign-up?aff=4YUg" target="_blank">超级至尊 — https://cjzc.art/sign-up?aff=4YUg</a>
-<a href="https://origin.nemodesk.top/sign-up?aff=Mvos" target="_blank">缘起 — https://origin.nemodesk.top/sign-up?aff=Mvos</a>
-<a href="https://v2.aicode2api.cc/register?aff=QF7EJ4S8EPX8" target="_blank">喵喵的ai — https://v2.aicode2api.cc/register?aff=QF7EJ4S8EPX8</a>
-<a href="https://hyxware.com/auth?mode=register&aff=kwOG" target="_blank">hyx — https://hyxware.com/auth?mode=register&aff=kwOG</a>
-<a href="https://livelove.dev/register?aff=J498RPZQ59FL" target="_blank">livelove — https://livelove.dev/register?aff=J498RPZQ59FL</a>
-<a href="https://api.wtxiaoyuan.top/sign-up?aff=pH13" target="_blank">梧桐小苑(签到额度只能吃国模) — https://api.wtxiaoyuan.top/sign-up?aff=pH13</a>
-
+    <div class="avatar-wrap">
+      <img class="avatar" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/PEL3boLtMoIAs6xBBcqcKFANnIe" alt="头像">
     </div>
+    <h1>api站点合集</h1>
+    <div class="desc">各种站点持续更新中～</div>
+    <div class="stats"><span id="statAll">0</span> 个站点 · 持续收录</div>
   </div>
 
-  <div class="section">
-    <h2>有门槛签到</h2>
-    <div class="link-list">
+  <details open>
+    <summary>无门槛签到<span class="badge" id="badgeNo">0</span></summary>
+    <div class="item-wrap" id="listNoGate"></div>
+  </details>
 
-<a href="https://wanwanzhou.top/register?aff=EE6RFG5MQDEK" target="_blank">晚晚舟(邀请5人解锁签到) — https://wanwanzhou.top/register?aff=EE6RFG5MQDEK</a>
-<a href="https://api.fri5.top/sign-up?aff=pyAa" target="_blank">星期五(充5元可囤签到) — https://api.fri5.top/sign-up?aff=pyAa</a>
-<a href="https://api-cf.jiushi.xin/register?aff=ftPl" target="_blank">jiushi玖时(充2元解锁签到) — https://api-cf.jiushi.xin/register?aff=ftPl</a>
-<a href="https://api.kekeaittt.com/sign-up?aff=cyWX" target="_blank">克克(充钱+前日调用可签到) — https://api.kekeaittt.com/sign-up?aff=cyWX</a>
-<a href="https://www.primerelay.online/register?aff=KYEPDZW2FC5" target="_blank">prime(群内签到/充值签到) — https://www.primerelay.online/register?aff=KYEPDZW2FC5</a>
-<a href="https://jiuguan.cloud/sign-up?aff=caAZ" target="_blank">酒馆(充值有签到) — https://jiuguan.cloud/sign-up?aff=caAZ</a>
+  <details>
+    <summary>有门槛签到<span class="badge" id="badgeGate">0</span></summary>
+    <div class="item-wrap" id="listGate"></div>
+  </details>
 
-    </div>
-  </div>
+  <details>
+    <summary>需要前日调用签到<span class="badge" id="badgePrev">0</span></summary>
+    <div class="item-wrap" id="listPrev"></div>
+  </details>
 
-  <div class="section">
-    <h2>需要前日调用签到</h2>
-    <div class="link-list">
+  <details>
+    <summary>暂时关签到<span class="badge" id="badgeClosed">0</span></summary>
+    <div class="item-wrap" id="listClosed"></div>
+  </details>
 
-<a href="https://ai.xlyun.pro/sign-up?aff=Ish2" target="_blank">小流云（前日调用签到） — https://ai.xlyun.pro/sign-up?aff=Ish2</a>
-<a href="https://api.jiuzhan.top/sign-up?aff=coxD" target="_blank">酒栈(前日调用可签到) — https://api.jiuzhan.top/sign-up?aff=coxD</a>
-<a href="https://yueqiai.top/sign-up?aff=iFP7" target="_blank">月栖(前日调用可签到) — https://yueqiai.top/sign-up?aff=iFP7</a>
-<a href="https://api.qiyiguo.uk/sign-up?aff=pJNF" target="_blank">奇异果（前日调用可签到） — https://api.qiyiguo.uk/sign-up?aff=pJNF</a>
-<a href="https://ai.dianhuomao.shop/sign-up?aff=O6Wl" target="_blank">颠火喵（前日调用可签到） — https://ai.dianhuomao.shop/sign-up?aff=O6Wl</a>
-<a href="https://mixed.strai.life/sign-up?aff=AEGL" target="_blank">小雨(前日调用可签到) — https://mixed.strai.life/sign-up?aff=AEGL</a>
-<a href="http://154.40.43.160:3000/register?aff=DVRz" target="_blank">好梦（前日调用签到） — http://154.40.43.160:3000/register?aff=DVRz</a>
-<a href="https://az.zlapi.pro/register?aff=vkRc" target="_blank">宅恋（前日调用可签到） — https://az.zlapi.pro/register?aff=vkRc</a>
-<a href="https://bailan.sikong.chat/register?aff=Zcyn" target="_blank">司空（前日有调用签到） — https://bailan.sikong.chat/register?aff=Zcyn</a>
-<a href="https://api2.qiandao.mom/sign-up?aff=rCoY" target="_blank">千岛（前日有调用签到） — https://api2.qiandao.mom/sign-up?aff=rCoY</a>
-<a href="https://luckylunch.cc/register?aff=ApTu" target="_blank">幸运午餐（前日有调用可签到） — https://luckylunch.cc/register?aff=ApTu</a>
-<a href="https://api.ecmverve.buzz/register?aff=QqKw" target="_blank">V²（前日调用可签到） — https://api.ecmverve.buzz/register?aff=QqKw</a>
-<a href="https://ai2.wasdxx.xyz/register?aff=7iKh" target="_blank">蓝天（vip可签到） — https://ai2.wasdxx.xyz/register?aff=7iKh</a>
-<a href="https://hk.ovoapi.cn/sign-up?aff=nHMq" target="_blank">OVO((前日调用可签到) — https://hk.ovoapi.cn/sign-up?aff=nHMq</a>
-<a href="https://api.wuyinai.cc/sign-up?aff=lG2d" target="_blank">雾隐(前日调用可签到) — https://api.wuyinai.cc/sign-up?aff=lG2d</a>
-<a href="https://api.fuka.win/sign-up?aff=NLuU" target="_blank">芙卡（前200有签到，已无名额） — https://api.fuka.win/sign-up?aff=NLuU</a>
+  <details>
+    <summary>专门生图的api站<span class="badge" id="badgeImage">0</span></summary>
+    <div class="item-wrap" id="listImage"></div>
+  </details>
 
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>暂时关签到不知道什么时候开</h2>
-    <div class="link-list">
-
-<a href="https://eazydata.org/sign-up?aff=TYTv" target="_blank">eazy — https://eazydata.org/sign-up?aff=TYTv</a>
-<a href="https://flowbee.top/sign-up?aff=mYCG" target="_blank">flowbee(签到暂时关闭) — https://flowbee.top/sign-up?aff=mYCG</a>
-<a href="https://arpanet.icu/register?aff=DxFD" target="_blank">Arpan(暂时取消签到，不知道后续会不会开) — https://arpanet.icu/register?aff=DxFD</a>
-<a href="https://love.qinyan.icu/register?aff=eG8J" target="_blank">qiny(签到暂时取消，不知道后续开不开放) — https://love.qinyan.icu/register?aff=eG8J</a>
-
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>专门生图的api站</h2>
-    <div class="link-list">
-
-<a href="https://dangao.iisbo.com/auth?invite=BJK2B4X7" target="_blank">蛋糕 — https://dangao.iisbo.com/auth?invite=BJK2B4X7</a>
-<a href="https://pai.zaiduyu.top/#/auth?ref=B7D16B41B6BB" target="_blank">克落德森 — https://pai.zaiduyu.top/#/auth?ref=B7D16B41B6BB</a>
-
-    </div>
-  </div>
-
-  <div class="footer">
-    🐾 猫猫整理 · api签到站合集 🐾
-  </div>
-
+  <details>
+    <summary>api不可签到站子合集<span class="badge" id="badgeNoSign">0</span></summary>
+    <div class="item-wrap" id="listNoSign"></div>
+  </details>
 </div>
 
+<script>
+// ===== 站点数据 =====
+var NO_GATE = [
+["🌸","长春叙","https://changchunxu.xyz/sign-up?aff=U7V5"],
+["⚡","Node X","https://nodexapi.it.com/sign-up?aff=iIe8"],
+["🐱","狸猫","https://limao-api.com/sign-up?aff=YiSM"],
+["🍵","茉莉冰茶","https://www.molytea.ccwu.cc/sign-up?aff=Png8"],
+["💭","聚梦","https://api.jumengai.net/sign-up?aff=Dvsn"],
+["🍰","舒芙蕾","https://shufulei.net/register?aff=NU9u"],
+["🥤","橘子汽水","https://juziqishui.net/register?aff=DlSo"],
+["☁️","织云","https://zhiyunapi.cc/register?aff=JODc"],
+["🍪","ksir","https://ksir.fun/sign-up?aff=aE6N"],
+["🍡","421","https://laneai.dev/i/1d952553"],
+["🌱","新希望","https://www.xinxiwang.org/pdcxg"],
+["🍮","piu酱","https://piu.du4s.com/sign-up?aff=z1Mx"],
+["🧊","novai","https://once.novai.su/sign-up?aff=NIgb"],
+["🍗","大肘子","https://api.dzzi.ai/register?aff=Th5Z"],
+["🍥","棉花","https://api.cottonapi.cloud/sign-up?aff=4K0D"],
+["✨","XEM","https://ai.xem8k5.top/register?aff=UvzU"],
+["🌙","缘起","https://origin.nemodesk.top/sign-up?aff=Mvos"],
+["🍬","taicu","https://taicu.vip/register?aff=r73q"],
+["🍐","冻梨","https://api.dongli.work/register?aff=032h"],
+["🧊","freez","https://www.freezapi.eu.cc/register?aff=EreC"],
+["💜","V","https://v-api.zeabur.app/register?aff=U0tm"],
+["🎮","rplay","https://rplay.cc/register?aff=C28q"],
+["🔥","遂人","https://api.haokun.cc/register?aff=HvZ1"],
+["🎨","赛艺","https://open.selart.cc/register?aff=DCSQ"],
+["🔑","灵钥","https://ai.qqqpppl.dpdns.org/register?aff=ODzQ"],
+["➡️","向量","https://api.relayrouter.ai/register?aff=K01v"],
+["🍩","mn","https://www.mnapi.com/register?aff=Z0Ej"],
+["🍃","清风（群里签到）","https://sllt.uk/register?aff=1HNR"],
+["📖","learn","https://free.learn-ai.top/register?aff=xb8l"],
+["💬","TX","https://ai.txcxgzs.com/register?aff=qj2l"],
+["🌌","北执","https://beizhi.sylu.cc/sign-up?aff=GbgS"],
+["♾️","无限","https://infai.cc/register?aff=XgKX"],
+["🤖","jarvis","https://ai.ctacy.cc/register?aff=5Yqh"],
+["💡","思索","https://newapi.sisuo.de/register?aff=NnFf"],
+["🏛️","柏拉图","https://api.bltcy.ai/register?aff=33SZ125032"],
+["🪄","sp","https://spritnest.com/register?aff=r2GB"],
+["🐾","可萌","https://api456.me/register?aff=GBW0"],
+["🌀","sis","https://api.sisyphusx.com/register?aff=8qXr"],
+["🍃","清风","https://api.celestiai.xyz/register?aff=XgAn"],
+["💎","DGB","https://freeapi.dgbmc.top/register?aff=bsbV"],
+["⭐","北极星","https://api.beibeiai.top/register?aff=da63"],
+["🎂","52","https://52mx.net/register?aff=oI93"],
+["🦸","super","https://superapi.buzz/register?aff=DWyu"],
+["🪶","天絮","https://chat-api4.087654.xyz/register?aff=EM2P"],
+["🏯","烟神殿","https://yansd666.com/register?aff=05wC"],
+["💰","钱多多","https://api2.aigcbest.top/register?aff=RmHS"],
+["🧩","简易","https://jeniya.top/register?aff=ULAe"],
+["👾","GUYS","https://www.guyscode.com/sign-up?aff=SoPg"],
+["💻","codzen","https://llm-gateway.linkmnt.com/sign-up?aff=Badq"],
+["🌸","nianhua","https://newapi.makelove.cloud/register?aff=X8Xn"],
+["🎯","choosec","https://api.choosec.cn/register?aff=JRd6"],
+["🐣","PIPI","https://cloudpipi.com/register?aff=ri97"],
+["🚪","Modelgate","https://modelgate.app/register?aff=zf6O"],
+["💧","微溪","https://api.wxiai.com/register?aff=juUx"],
+["📜","词元枢阁","https://api.aisz.mom/sign-up?aff=5XfK"],
+["🔮","万象灵算","https://wxls.ccwu.cc/sign-up?aff=dp0X"],
+["🍙","shiki","http://156.238.251.242:3000/register?aff=5koB"],
+["🍶","清酒","https://qingjiu.nemodesk.top/register?aff=Qf0H"],
+["🐟","哈吉鱼","https://api.qwecc.icu/register?aff=rpZc"],
+["🦊","狐狐","https://api3.neonfox.top/sign-up?aff=kZOh"],
+["🐈‍⬛","小黑","https://api.xiaoheiapi.com/register?aff=DB71"],
+["👑","GPT666","https://ai.gpt666claude.top/register?aff=84vX"],
+["🐉","dragon","https://api.dragonrajai.online/sign-up?aff=xJaJ"],
+["✨","星芽","https://xingya.site/sign-up?aff=gklQ"],
+["💃","华尔兹","https://www.huaerzi.online/register?aff=9sEq"],
+["🖤","noir","https://noir.blacknoir.cn/sign-up?aff=KBRR"],
+["🍫","lmx","https://newapi.lmx-cn.top/sign-up?aff=PLXD"],
+["☔","rai","https://raivip.com/register?aff=3itw"],
+["🗡️","剑阁（玩游戏获得额度）","https://www.jiangeyun.xyz/register?aff=YPEKPKDDR64S"],
+["📚","tale","https://taleapi.asia/sign-up?aff=78PK"],
+["🎓","985","https://985ai.art/sign-up?aff=7XCL"],
+["🍭","gg27251","https://gg27251.xyz/sign-up?aff=YrQT"],
+["🫧","慧慧云","https://api.huihuiyun.top/register?aff=X56WM6L58XZZ"],
+["☀️","sun","https://newapi.chinahk.qzz.io/sign-up?aff=Q11C"],
+["🪐","Aether","https://api.abnt.it/sign-up?aff=PYta"],
+["🔦","聚光","https://ai.juguang.chat/sign-up?aff=qIaf"],
+["🧠","天才","https://api.sld.lol/sign-up?aff=qDwZ"],
+["🐰","糯米兔","https://api.seerss.xyz/register?aff=ao6e"],
+["🌌","北执","https://beizhi.dedyn.io/sign-up?aff=GbgS"],
+["🔥","flux","https://free.camila.qzz.io/sign-up?aff=gDBx"],
+["🧀","奶酪","https://nailao.biz/sign-up?aff=nojd"],
+["🖋️","墨信","https://www.moxin.plus/sign-up?aff=gq10"],
+["🍮","布丁熊","https://ai.hyperx.one/sign-up?aff=7bG3"],
+["💐","信心花舍","https://xxhs.bgstudio.top/sign-up?aff=Shfm"],
+["🍒","7891","https://7891vip.cc.cd/login?view=reg&aff=vzjo"],
+["🐱","白柚猫","https://api.baiyounico.xyz/sign-up?aff=hWjd"],
+["🦫","卡皮巴拉","https://kapibala.asia/sign-up?aff=3IRz"],
+["🏝️","聚萌岛","https://jumengai.de5.net/sign-up?aff=oXpK"],
+["🛠️","GCmod","https://gcmod.bond/register?aff=NW0u"],
+["🎐","风绘","https://api.huidev.com/sign-up?aff=sysD"],
+["👑","超级至尊","https://cjzc.art/sign-up?aff=4YUg"],
+["🌙","缘起","https://origin.nemodesk.top/sign-up?aff=Mvos"],
+["🐾","喵喵的ai","https://v2.aicode2api.cc/register?aff=QF7EJ4S8EPX8"],
+["💫","hyx","https://hyxware.com/auth?mode=register&aff=kwOG"],
+["❤️","livelove","https://livelove.dev/register?aff=J498RPZQ59FL"],
+["🌳","梧桐小苑(签到额度只能吃国模)","https://api.wtxiaoyuan.top/sign-up?aff=pH13"]
+];
+
+var GATE = [
+["🚢","晚晚舟(邀请5人解锁签到)","https://wanwanzhou.top/register?aff=EE6RFG5MQDEK"],
+["📅","星期五(充5元可囤签到)","https://api.fri5.top/sign-up?aff=pyAa"],
+["⏳","jiushi玖时(充2元解锁签到)","https://api-cf.jiushi.xin/register?aff=ftPl"],
+["💰","克克(充钱+前日调用可签到)","https://api.kekeaittt.com/sign-up?aff=cyWX"],
+["👑","prime(群内签到/充值签到)","https://www.primerelay.online/register?aff=KYEPDZW2FC5"],
+["🍺","酒馆(充值有签到)","https://jiuguan.cloud/sign-up?aff=caAZ"]
+];
+
+var PREV = [
+["☁️","小流云（前日调用签到）","https://ai.xlyun.pro/sign-up?aff=Ish2"],
+["🍶","酒栈(前日调用可签到)","https://api.jiuzhan.top/sign-up?aff=coxD"],
+["🌙","月栖(前日调用可签到)","https://yueqiai.top/sign-up?aff=iFP7"],
+["🥝","奇异果（前日调用可签到）","https://api.qiyiguo.uk/sign-up?aff=pJNF"],
+["🐱","颠火喵（前日调用可签到）","https://ai.dianhuomao.shop/sign-up?aff=O6Wl"],
+["🌧️","小雨(前日调用可签到)","https://mixed.strai.life/sign-up?aff=AEGL"],
+["😴","好梦（前日调用签到）","http://154.40.43.160:3000/register?aff=DVRz"],
+["🏠","宅恋（前日调用可签到）","https://az.zlapi.pro/register?aff=vkRc"],
+["🧭","司空（前日有调用签到）","https://bailan.sikong.chat/register?aff=Zcyn"],
+["🏝️","千岛（前日有调用签到）","https://api2.qiandao.mom/sign-up?aff=rCoY"],
+["🍱","幸运午餐（前日有调用可签到）","https://luckylunch.cc/register?aff=ApTu"],
+["💜","V²（前日调用可签到）","https://api.ecmverve.buzz/register?aff=QqKw"],
+["🌳","Tree（vip可签到，已关闭注册，可找我要邀请码）","https://api.treegpt.cc"],
+["☀️","蓝天（vip可签到）","https://ai2.wasdxx.xyz/register?aff=7iKh"],
+["🥚","OVO((前日调用可签到)","https://hk.ovoapi.cn/sign-up?aff=nHMq"],
+["🌫️","雾隐(前日调用可签到)","https://api.wuyinai.cc/sign-up?aff=lG2d"],
+["🌸","芙卡（前200有签到，已无名额）","https://api.fuka.win/sign-up?aff=NLuU"]
+];
+
+var CLOSED = [
+["🎈","eazy","https://eazydata.org/sign-up?aff=TYTv"],
+["⏸️","flowbee(签到暂时关闭)","https://flowbee.top/sign-up?aff=mYCG"],
+["🚫","Arpan(暂时取消签到，不知道后续会不会开)","https://arpanet.icu/register?aff=DxFD"],
+["🛑","qiny(签到暂时取消，不知道后续开不开放)","https://love.qinyan.icu/register?aff=eG8J"]
+];
+
+var IMAGE = [
+["🍰","蛋糕","https://dangao.iisbo.com/auth?invite=BJK2B4X7"],
+["🎨","克落德森","https://pai.zaiduyu.top/#/auth?ref=B7D16B41B6BB"]
+];
+
+var NO_SIGN = [
+["⭐","星辰","https://api1.apistar.com.cn/sign-up?aff=j0YG"],
+["🧬","emtf","https://emtf.aipm9527.site/sign-up?aff=TZv4"],
+["🌾","满穗","https://www.msuicode.com/sign-up?aff=ECYz"],
+["🎮","lingki","https://lingkigame.info/sign-up?aff=tO5i"],
+["1️⃣","one","https://oneai.cc/sign-up?aff=vol4"],
+["🎉","jixiang/即享","https://jixiangai.xyz/sign-up?aff=FAWj"],
+["🌫️","空悲切","https://xn--vduyey89e.com/sign-up?aff=lhrm"],
+["🍊","甜橙派","https://i.orangepie.org/sign-up?aff=i0Kp"],
+["🐘","ek8","https://api.ekanw.com/sign-up?aff=jVxo"],
+["🍋","柠檬","https://api.keeps.cc/register?aff=bxlV"],
+["💠","guicore","https://guicore.top/sign-up?aff=8MHp"],
+["⚓","幸福港","https://new.xfxai.top/register?aff=Rvt0"],
+["🐔","小鸡农场","https://api.68886868.xyz/sign-up?aff=OBAM"],
+["🎲","16z","https://api16z.com/sign-up?aff=ISiD"],
+["🍀","749","https://749code.com/sign-up?aff=gI90"],
+["🏡","全村的","https://new.tianluo.ccwu.cc/sign-up?aff=Zepy"],
+["🪨","石头","https://stoneai.fun/sign-up?aff=Skci"],
+["☂️","youki","https://newapi.youkies.space/register?aff=xmqF"],
+["🍊","橘子","https://api.juziai.cc/sign-up?aff=4a7W"],
+["🍍","菠萝","https://mjj.boluoapi.cn/register?aff=aQ51"],
+["🌊","sora","https://api.usora.net/sign-up?aff=gliv"],
+["✨","星河","https://ai.xingheai.cc/register?aff=uusM"],
+["💎","Jsaper","https://api.yjs.im/sign-up?aff=MVFv"],
+["📖","信书","https://api.astroflowing.com/sign-up?aff=rizi"],
+["🥰","蕾姆","https://remu.chat/signup?ref=3523A49E"],
+["🎈","eazy","https://eazydata.org/sign-up?aff=TYTv"],
+["🐟","秋刀鱼","https://qiudaoy.com/sign-up?aff=yEWK"]
+];
+
+// ===== 渲染 =====
+function renderList(data, containerId){
+  var html = "";
+  for(var i=0;i<data.length;i++){
+    var item = data[i];
+    html += '<div class="site-card">'
+          +   '<span class="icon">'+item[0]+'</span>'
+          +   '<div class="site-info">'
+          +     '<a href="'+item[2]+'" target="_blank" rel="noopener">'
+          +       '<span class="site-name">'+item[1]+'</span>'
+          +       '<span class="site-link">'+item[2]+'</span>'
+          +     '</a>'
+          +   '</div>'
+          + '</div>';
+  }
+  document.getElementById(containerId).innerHTML = html;
+}
+renderList(NO_GATE, "listNoGate");
+renderList(GATE, "listGate");
+renderList(PREV, "listPrev");
+renderList(CLOSED, "listClosed");
+renderList(IMAGE, "listImage");
+renderList(NO_SIGN, "listNoSign");
+
+document.getElementById("badgeNo").textContent = NO_GATE.length;
+document.getElementById("badgeGate").textContent = GATE.length;
+document.getElementById("badgePrev").textContent = PREV.length;
+document.getElementById("badgeClosed").textContent = CLOSED.length;
+document.getElementById("badgeImage").textContent = IMAGE.length;
+document.getElementById("badgeNoSign").textContent = NO_SIGN.length;
+
+document.getElementById("statAll").textContent =
+  NO_GATE.length + GATE.length + PREV.length + CLOSED.length + IMAGE.length + NO_SIGN.length;
+</script>
 </body>
 </html>
