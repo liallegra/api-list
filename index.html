@@ -78,6 +78,87 @@ h1{
   opacity:.92;
 }
 
+/* ================= 搜索框 ================= */
+.search-container{
+  width:100%;
+  margin-bottom:14px;
+}
+.search-box{
+  width:100%;
+  padding:12px 20px;
+  border-radius:999px;
+  border:1.5px solid rgba(255,255,255,.6);
+  background:rgba(255,255,255,.25);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  color:#333;
+  font-size:14px;
+  outline:none;
+  box-shadow:0 4px 12px rgba(120,80,160,.08);
+  transition:all .3s ease;
+}
+.search-box::placeholder{color:#666;}
+.search-box:focus{
+  background:rgba(255,255,255,.5);
+  border-color:rgba(255,255,255,.9);
+}
+.search-tip{
+  display:none;
+  text-align:center;
+  color:#fff;
+  font-size:13px;
+  margin-top:10px;
+  text-shadow:0 1px 3px rgba(80,60,140,.25);
+}
+
+/* ================= 公告栏 ================= */
+.announcement-wrapper{
+  width:100%;
+  margin-bottom:18px;
+}
+.announcement-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 22px;
+  background:rgba(255,255,255,.4);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,.6);
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:15px;
+  color:#333;
+  box-shadow:0 4px 12px rgba(120,80,160,.08);
+  transition:all .3s ease;
+  user-select:none;
+}
+.announcement-title:hover{background:rgba(255,255,255,.6);}
+.announcement-title .arrow{
+  font-size:14px;
+  transition:transform .3s;
+}
+.announcement-title.active .arrow{transform:rotate(180deg);}
+.announcement-content{
+  display:none;
+  margin-top:10px;
+  padding:15px 20px;
+  background:rgba(255,255,255,.3);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,.5);
+  border-radius:20px;
+  font-size:13px;
+  line-height:1.7;
+  color:#333;
+  box-shadow:0 4px 12px rgba(120,80,160,.08);
+}
+.announcement-content.show{
+  display:block;
+  animation:fadeInDown .3s ease forwards;
+}
+
 details{
   background:rgba(255,255,255,.32);
   backdrop-filter:blur(10px);
@@ -161,9 +242,15 @@ details[open] summary::after{transform:rotate(180deg);}
   display:block;
 }
 
+@keyframes fadeInDown{
+  from{opacity:0;transform:translateY(-10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
 @media (prefers-reduced-motion: reduce){
   summary::after{transition:none;}
   .site-card:active{transform:none;}
+  .announcement-content.show{animation:none;}
 }
 </style>
 </head>
@@ -182,32 +269,51 @@ details[open] summary::after{transform:rotate(180deg);}
     <div class="stats"><span id="statAll">0</span> 个站点 · 持续收录</div>
   </div>
 
-  <details open>
+  <!-- 搜索栏 -->
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 搜索站点名称或链接...">
+    <div class="search-tip" id="searchTip">没有找到匹配的站点~</div>
+  </div>
+
+  <!-- 公告栏 -->
+  <div class="announcement-wrapper">
+    <div class="announcement-title" id="announcementBtn">
+      <span>📢 站点公告</span>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="announcement-content" id="announcementContent">
+      欢迎来到 API 站点合集！<br>
+      本页面所有内容均来自本人收集，试吃或签到有可能不准确，以实际情况为准。<br>
+      如有问题或需要更新链接，请联系本人。
+    </div>
+  </div>
+
+  <details class="group" open>
     <summary>无门槛签到<span class="badge" id="badgeNo">0</span></summary>
     <div class="item-wrap" id="listNoGate"></div>
   </details>
 
-  <details>
+  <details class="group">
     <summary>有门槛签到<span class="badge" id="badgeGate">0</span></summary>
     <div class="item-wrap" id="listGate"></div>
   </details>
 
-  <details>
+  <details class="group">
     <summary>需要前日调用签到<span class="badge" id="badgePrev">0</span></summary>
     <div class="item-wrap" id="listPrev"></div>
   </details>
 
-  <details>
+  <details class="group">
     <summary>暂时关签到<span class="badge" id="badgeClosed">0</span></summary>
     <div class="item-wrap" id="listClosed"></div>
   </details>
 
-  <details>
+  <details class="group">
     <summary>专门生图的api站<span class="badge" id="badgeImage">0</span></summary>
     <div class="item-wrap" id="listImage"></div>
   </details>
 
-  <details>
+  <details class="group">
     <summary>api不可签到站子合集<span class="badge" id="badgeNoSign">0</span></summary>
     <div class="item-wrap" id="listNoSign"></div>
   </details>
@@ -426,6 +532,71 @@ document.getElementById("badgeNoSign").textContent = NO_SIGN.length;
 
 document.getElementById("statAll").textContent =
   NO_GATE.length + GATE.length + PREV.length + CLOSED.length + IMAGE.length + NO_SIGN.length;
+
+// ===== 公告栏 =====
+(function setupAnnouncement(){
+  var annBtn = document.getElementById('announcementBtn');
+  var annContent = document.getElementById('announcementContent');
+  if(!annBtn || !annContent) return;
+  annBtn.addEventListener('click', function(){
+    annContent.classList.toggle('show');
+    annBtn.classList.toggle('active');
+  });
+})();
+
+// ===== 搜索栏 =====
+(function setupSearch(){
+  var searchInput = document.getElementById('searchInput');
+  var searchTip = document.getElementById('searchTip');
+  if(!searchInput) return;
+
+  var groups = document.querySelectorAll('details.group');
+
+  // 记录初始展开状态，清空搜索时恢复
+  groups.forEach(function(g){
+    g.dataset.initOpen = g.open ? '1' : '0';
+  });
+
+  function applySearch(){
+    var keyword = searchInput.value.toLowerCase().trim();
+    var totalVisible = 0;
+
+    groups.forEach(function(g){
+      var cards = g.querySelectorAll('.site-card');
+      var visible = 0;
+
+      cards.forEach(function(card){
+        if(!keyword || card.textContent.toLowerCase().indexOf(keyword) !== -1){
+          card.style.display = '';
+          visible++;
+        }else{
+          card.style.display = 'none';
+        }
+      });
+
+      if(!keyword){
+        g.style.display = '';
+        g.open = g.dataset.initOpen === '1';
+      }else{
+        if(visible > 0){
+          g.style.display = '';
+          g.open = true;
+          totalVisible += visible;
+        }else{
+          g.style.display = 'none';
+        }
+      }
+    });
+
+    if(keyword){
+      searchTip.style.display = totalVisible > 0 ? 'none' : 'block';
+    }else{
+      searchTip.style.display = 'none';
+    }
+  }
+
+  searchInput.addEventListener('input', applySearch);
+})();
 </script>
 </body>
 </html>
